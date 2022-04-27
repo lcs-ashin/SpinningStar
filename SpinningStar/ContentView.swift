@@ -20,7 +20,11 @@ struct ContentView: View {
             .frame(width: 40, height: 40)
             .foregroundColor(.purple)
             .offset(x: xOffset, y: 0)
-            .animation(.default)
+            .animation(
+                Animation
+                    .easeInOut(duration: 1)
+                    .repeatForever(autoreverses: true)
+            )
             // 3. Trigger the animation on a tap
             .onTapGesture {
                 // 2. Logic that changes the state
