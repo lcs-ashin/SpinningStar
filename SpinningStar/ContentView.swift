@@ -16,6 +16,9 @@ struct ContentView: View {
     // Control the rotation of the star
     @State var starRotation = 0.0
     
+    // Start a timer 0.25 seconds after the view appears
+    let timer = Timer.publish(every: 0.25, on: .main, in: .common).autoconnect()
+    
     // MARK: Computed properties
     var body: some View {
         Image(systemName: "star")
@@ -30,12 +33,15 @@ struct ContentView: View {
                     .easeInOut(duration: 1)
                     .repeatForever(autoreverses: true)
             )
-            // 3. Trigger the animation on a tap
-            .onTapGesture {
+            // 3. Trigger the animation with a timer
+            .onReceive(timer) { input in
                 // 2. Logic that changes the state
                 xOffset = 100
                 // Spin the star twice
                 starRotation = 360 * 2
+                
+                // Stop the timer
+                timer.upstream.connect().cancel()
             }
     }
 }
